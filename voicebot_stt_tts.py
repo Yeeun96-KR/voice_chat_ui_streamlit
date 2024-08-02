@@ -1,10 +1,23 @@
 import streamlit as st
+import openai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+api_key = os.environ.get('OPEN_API_KEY')
+client = openai.OpenAI(api_key=api_key)
+
+# 메인 함수
 def main():
 
-    # set_page_config : 타이틀 세팅
+    # 기본설정
     st.set_page_config(page_title='음성 챗봇', layout='wide')
+
+    # 제목
     st.header('음성 챗봇 프로그램')
+
+    # 구분선
     st.markdown('---')
 
     # expander 만들기
@@ -18,6 +31,24 @@ def main():
         '''
         )
         st.markdown('')
+
+    # 사이드바 생성
+    with st.sidebar:
+        model = st.radio(label='GPT 모델', options=["gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo"])
+        st.markdown('---')
+
+        # 버튼 생성
+        if st.button(label='초기화'):
+            pass
+    
+    # 기능 구현 컬럼
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader('질문하기')
+    
+    with col2:
+        st.subheader('질문/답변')
 
 # 함수를 해당 파일 내에서만 사용할 수 있게 만드는 코드
 if __name__ == '__main__':
