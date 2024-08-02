@@ -32,14 +32,31 @@ def main():
         )
         st.markdown('')
 
+    system_content = 'You are a thoughtful assistant. Respond to all input in 25 words adn answer in Korea'
+
+    # session state 초기화
+    if 'chat' not in st.session_state:
+        st.session_state['chat'] = []
+    
+    if 'message' not in st.session_state:
+        st.session_state['message'] = [{'role':'system', 'content':system_content}]
+
+    if 'check_reset' not in st.session_state:
+        st.session_state['check_reset'] = False
+
     # 사이드바 생성
     with st.sidebar:
+
+        # 라디오 버튼 생성
         model = st.radio(label='GPT 모델', options=["gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo"])
         st.markdown('---')
 
         # 버튼 생성
         if st.button(label='초기화'):
-            pass
+            # 리셋
+            st.session_state['chat'] = []
+            st.session_state['messages'] = [{'role':'system', 'content':system_content}]
+            st.session_state['check_reset'] = True
     
     # 기능 구현 컬럼
     col1, col2 = st.columns(2)
